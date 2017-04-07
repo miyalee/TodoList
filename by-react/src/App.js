@@ -11,7 +11,8 @@ class MainBody extends Component {
         }
 
         this.recordInput = this.recordInput.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.addList = this.addList.bind(this);
+        this.removeList = this.removeList.bind(this);
     }
 
     recordInput(e) {
@@ -20,7 +21,7 @@ class MainBody extends Component {
         });
     }
 
-    handleSubmit() {
+    addList() {
         var item_arr = JSON.parse(this.state.item) || [];
 
         item_arr.push(this.state.text);
@@ -31,7 +32,17 @@ class MainBody extends Component {
         })
     }
 
-    // TODO done(){}
+    removeList(text) {
+        console.log(text);
+        var item_arr = JSON.parse(this.state.item) || [];
+
+        item_arr.splice(item_arr.indexOf(text), 1);
+        localStorage.setItem('item', JSON.stringify(item_arr));
+
+        this.setState({
+            item: localStorage.getItem('item')
+        })
+    }
 
     render() {
         return (
@@ -39,10 +50,10 @@ class MainBody extends Component {
                 <h1>TODOLIST</h1>
                 <div className="input-box">
                     <input type="text" placeholder="shuru" onChange={this.recordInput} />
-                    <button className="submit" onClick={this.handleSubmit}>提交</button>
+                    <button className="submit" onClick={this.addList}>提交</button>
                 </div>
                 <div className="list">
-                    <TodoList item={this.state.item}/>
+                    <TodoList item={this.state.item} removeList={this.removeList} />
                 </div>
             </div>
         );
@@ -60,7 +71,7 @@ class TodoList extends Component {
             <ul className="item">
                 {
                     items.map(function(text, index){
-                        return(<li key={index}>{text}</li>)
+                        return(<li key={index} onClick={() => self.props.removeList(text)}>{text}</li>)
                     }) 
                 }
             </ul>
