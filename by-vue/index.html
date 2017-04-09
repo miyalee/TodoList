@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>by-vue</title>
+  </head>
+  <body>
+    <div id="app">
+    	<h1>Todo List</h1>
+
+    	<div>
+    		<input type="text" v-model="newTodo">
+    		<button type="button" v-on:click="addList">增加</button>
+    	</div>
+
+    	<div>
+    		<ul>
+    			<li v-for="(text, index) in list" v-on:click="removeList">{{text}}</li>
+    		</ul>
+    	</div>
+    </div>
+  </body>
+</html>
